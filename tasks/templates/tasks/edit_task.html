@@ -1,0 +1,55 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h2>Edit Task</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="title">Task Title</label>
+        <input id="title" type="text" name="title" value="{{ task.title }}" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes" class="form-control" rows="3" placeholder="Details, links, steps...">{{ task.notes }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="subject">Subject (optional)</label>
+        <select id="subject" name="subject" class="form-select">
+            <option value="">— None —</option>
+            {% for s in subjects %}
+            <option value="{{ s.pk }}" {% if task.subject_id == s.pk %}selected{% endif %}>{{ s.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="deadline">Deadline</label>
+        <input id="deadline" type="date" name="deadline" value="{% if task.deadline %}{{ task.deadline|date:'Y-m-d' }}{% endif %}" class="form-control">
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <label for="priority" class="form-label">Priority</label>
+            <select id="priority" name="priority" class="form-select">
+                {% for value,label in priority_choices %}
+                <option value="{{ value }}" {% if task.priority == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="estimated_minutes" class="form-label">Estimated minutes (optional)</label>
+            <input id="estimated_minutes" type="number" min="1" step="1" name="estimated_minutes" value="{% if task.estimated_minutes %}{{ task.estimated_minutes }}{% endif %}" class="form-control" placeholder="e.g. 45">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Update</button>
+    <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Dashboard</h2>
+
+{% if user.is_authenticated %}
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Tasks</div>
+            <div class="dashboard-stat-value">{{ total_tasks }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Pending</div>
+            <div class="dashboard-stat-value text-warning">{{ pending_tasks }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Done</div>
+            <div class="dashboard-stat-value text-success">{{ done_tasks }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Overdue</div>
+            <div class="dashboard-stat-value {% if overdue_tasks %}text-danger{% endif %}">{{ overdue_tasks }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Due today</div>
+            <div class="dashboard-stat-value">{{ due_today_count }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="dashboard-stat p-3 h-100">
+            <div class="dashboard-stat-label">Subjects</div>
+            <div class="dashboard-stat-value">{{ total_subjects }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'add_task' %}" class="btn btn-primary btn-sm">New task</a>
+    <a href="{% url 'task_list' %}" class="btn btn-outline-light btn-sm">All tasks</a>
+    <a href="{% url 'add_subject' %}" class="btn btn-success btn-sm">New subject</a>
+    <a href="{% url 'subjects_list' %}" class="btn btn-outline-light btn-sm">All subjects</a>
+    <a href="{% url 'pomodoro' %}" class="btn btn-info btn-sm">Pomodoro</a>
+</div>
+
+<div class="dashboard-section mb-2">
+    <h3 class="h5 mb-3">Recent tasks</h3>
+    {% if recent_tasks %}
+    <ul class="list-group">
+        {% for task in recent_tasks %}
+        <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+                <strong>{{ task.title }}</strong>
+                {% if task.subject %}
+                <span class="badge bg-secondary ms-1">{{ task.subject.name }}</span>
+                {% endif %}
+                {% if task.completed %}
+                <span class="badge bg-success ms-1">Done</span>
+                {% endif %}
+                <br>
+                <small class="text-muted">
+                    {% if task.deadline %}Due: {{ task.deadline }}{% else %}No deadline{% endif %}
+                </small>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted mb-0">No tasks yet. <a href="{% url 'add_task' %}">Add your first task</a>.</p>
+    {% endif %}
+</div>
+
+{% else %}
+
+<p class="lead mb-4">Plan subjects, tasks, and focused study sessions in one place.</p>
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+    <a href="{% url 'pomodoro' %}" class="btn btn-info">Try Pomodoro</a>
+</div>
+<p class="text-muted small mb-0">After you sign in, your dashboard will show task and subject summaries.</p>
+
+{% endif %}
+
+{% endblock %}

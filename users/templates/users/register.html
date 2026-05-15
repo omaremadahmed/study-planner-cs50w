@@ -1,0 +1,38 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h2>Register</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" class="form-control" placeholder="Enter username">
+    </div>
+
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" class="form-control" placeholder="Enter email">
+    </div>
+
+    <div class="mb-3">
+        <label for="password1">Password</label>
+        <input id="password1" type="password" name="password1" class="form-control" placeholder="Enter password">
+    </div>
+
+    <div class="mb-3">
+        <label for="password2">Confirm Password</label>
+        <input id="password2" type="password" name="password2" class="form-control" placeholder="Confirm password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+
+</form>
+
+{% endblock %}

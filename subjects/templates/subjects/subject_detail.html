@@ -1,0 +1,43 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-3">{{ subject.name }}</h2>
+
+{% if subject.description %}
+<p class="text-muted mb-4">{{ subject.description }}</p>
+{% endif %}
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'edit_subject' subject.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+    <a href="{% url 'delete_subject' subject.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+    <a href="{% url 'subjects_list' %}" class="btn btn-outline-light btn-sm">Back to subjects</a>
+</div>
+
+<h3 class="h5 mb-3">Tasks for this subject</h3>
+{% if tasks %}
+<ul class="list-group">
+    {% for task in tasks %}
+    <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+            <strong>{{ task.title }}</strong>
+            {% if task.completed %}
+            <span class="badge bg-success ms-1">Done</span>
+            {% endif %}
+            <br>
+            <small class="text-muted">{% if task.deadline %}Due: {{ task.deadline }}{% else %}No deadline{% endif %}</small>
+        </div>
+        <div class="btn-group btn-group-sm">
+            {% if not task.completed %}
+            <a href="{% url 'mark_task_done' task.pk %}" class="btn btn-success">Done</a>
+            {% endif %}
+            <a href="{% url 'edit_task' task.pk %}" class="btn btn-outline-primary">Edit</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="text-muted mb-0">No tasks linked to this subject yet. <a href="{% url 'add_task' %}">Add a task</a> and choose this subject.</p>
+{% endif %}
+
+{% endblock %}

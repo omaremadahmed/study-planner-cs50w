@@ -1,0 +1,27 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h2>Login</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" class="form-control" placeholder="Enter username">
+    </div>
+
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" class="form-control" placeholder="Enter password">
+    </div>
+
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
+
+{% endblock %}

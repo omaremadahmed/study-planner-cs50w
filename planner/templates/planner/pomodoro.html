@@ -1,0 +1,14 @@
+{% extends 'planner/base.html' %}
+
+{% block content %}
+
+<h3>Pomodoro Timer</h3>
+
+<div class="text-center">
+    <h1 id="timer">25:00</h1>
+
+    <button class="btn btn-success" onclick="startTimer()">Start</button>
+    <button class="btn btn-danger" onclick="resetTimer()">Reset</button>
+</div>
+
+{% endblock %}

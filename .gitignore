@@ -1,0 +1,20 @@
+﻿# Python / Bytecode
+__pycache__/
+*.py[cod]
+*.class
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Staticfiles & Media
+staticfiles/
+media/
